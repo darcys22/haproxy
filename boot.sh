@@ -10,7 +10,7 @@ echo "[haproxy] booting container. ETCD: $ETCD."
 
 # Try to make initial configuration every 5 seconds until successful
 until confd -onetime -node $ETCD -config-file /etc/confd/conf.d/configuration.toml; do
-    echo "[haproxy] waiting for confd to create initial nginx configuration."
+    echo "[haproxy] waiting for confd to create initial haproxy configuration."
     sleep 5
 done
 
