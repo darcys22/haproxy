@@ -1,33 +1,14 @@
-#
-# Haproxy Dockerfile
-#
-# https://github.com/dockerfile/haproxy
-#
+FROM haproxy 
 
-# Pull base image.
-FROM ubuntu
+ENV VERSION 0.7.1 
 
-# Install Haproxy.
-RUN \
-  sed -i 's/^# \(.*-backports\s\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get install -y haproxy && \
-  sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy && \
-  rm -rf /var/lib/apt/lists/*
+ADD https://github.com/kelseyhightower/confd/releases/download/v${VERSION}/confd-${VERSION}-linux-amd64 \ 
+  /usr/local/bin/confd 
+RUN chmod u+x /usr/local/bin/confd 
 
-# Add files.
-ADD haproxy.cfg /etc/haproxy/haproxy.cfg
-ADD start.bash /haproxy-start
+ADD configuration.toml /etc/confd/conf.d/configuration.toml 
+ADD haproxy.cfg /etc/confd/templates/haproxy.cfg
 
-# Define mountable directories.
-VOLUME ["/haproxy-override"]
+COPY boot.sh /usr/local/bin
 
-# Define working directory.
-WORKDIR /etc/haproxy
-
-# Define default command.
-CMD ["bash", "/haproxy-start"]
-
-# Expose ports.
-EXPOSE 80
-EXPOSE 443
+CMD ["/usr/local/bin/boot.sh"]
