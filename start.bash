@@ -30,4 +30,6 @@ fi
 PRIVATE_IPV4=$(curl -sw "\n" http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address)
 sed -i -e "s/server apache private_ipv4:80 check/server apache ${PRIVATE_IPV4}:80 check/g" $HAPROXY/$CONFIG
 
+cat haproxy.cfg
+
 exec haproxy -f /etc/haproxy/haproxy.cfg -p "$PIDFILE"
