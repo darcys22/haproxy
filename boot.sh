@@ -21,4 +21,4 @@ echo "[haproxy] confd is now monitoring etcd for changes..."
 
 # Start the Nginx service using the generated config
 echo "[haproxy] starting haproxy..."
-exec haproxy -f /usr/local/etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -d -D -sf $(cat /var/run/haproxy.pid)
+exec haproxy -f /etc/haproxy/haproxy.cfg -d -D 
