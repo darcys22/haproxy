@@ -10,6 +10,6 @@ ADD configuration.toml /etc/confd/conf.d/configuration.toml
 ADD haproxy.cfg /etc/confd/templates/haproxy.cfg
 
 COPY boot.sh /usr/local/bin/boot.sh
-RUN mkdir /usr/haproxy
+COPY configuration.toml /usr/haproxy/config
 
 CMD ["/usr/local/bin/boot.sh"]
